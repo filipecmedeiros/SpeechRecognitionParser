@@ -25,10 +25,21 @@ def mp4_to_wav(file):
     return audio
 
 def mp4_to_wav_mem(file):
+    print('Converting wav file into wav')
     audio = AudioSegment.from_file_using_temporary_files(file, 'mp4')
     file = io.BytesIO()
     file = audio.export(file, format="wav")
     file.seek(0)
+    print('Audio file conversed to wav')
+    return file
+
+def ogg_to_wav(file):
+    print('Converting ogg file into wav')
+    audio = AudioSegment.from_file_using_temporary_files(file, 'ogg')
+    file = io.BytesIO()
+    file = audio.export(file, format="wav")
+    file.seek(0)
+    print('Audio file conversed to wav')
     return file
 
 url = 'https://cdn.fbsbx.com/v/t59.3654-21/75487881_3284647991576849_1113266638498562048_n.mp4/audioclip-1576251271-3762.mp4?_nc_cat=103&_nc_ohc=OAA4kYBlJVEAQn3xqdgBfpT7oyAXCHYK1XtI6bA1rdId0Ow_1PrgVWDAQ&_nc_ipfwd=1&_nc_ht=cdn.fbsbx.com&oh=566dc46d8909bd71b23dfe59f8601199&oe=5DF5B268'
