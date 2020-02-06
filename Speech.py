@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 import io
 import logging as log
@@ -10,15 +11,21 @@ class Speech:
     def __init__(self, source):
         self.source = source
 
-    def process(self, file):
+    def process(self, url):
         text = None
-        if self.source == 'messenger':
-            file = self.to_wav(io.BytesIO(file), 'mp4')
-            text = self.speech_to_text(file)
-        elif self.source == 'whatsapp':
-            file = self.to_wav(io.BytesIO(file), 'ogg')
-            text = self.speech_to_text(file)
+        file = self.download_from_url(url)
+        if file:
+            if self.source == 'messenger':
+                file = self.to_wav(io.BytesIO(file), 'mp4')
+                text = self.speech_to_text(file)
+            elif self.source == 'whatsapp':
+                file = self.to_wav(io.BytesIO(file), 'ogg')
+                text = self.speech_to_text(file)
         return text
+
+    def download_from_url(self, url):
+        response = requests.get(url)
+        return response.content
 
     def to_wav(self, file, extesion):
         """ This method try to handle multiple extesions to wav on memory """
